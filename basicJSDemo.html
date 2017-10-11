@@ -1,0 +1,87 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Basic JS Demo</title>
+		<style>
+			@import url('https://fonts.googleapis.com/css?family=Anonymous+Pro');
+		</style>
+		<link rel="stylesheet" href="stylesheets/style.css">
+		<script>
+			console.log('Starting code');
+			
+			cars = [];
+
+			function loopy(x) {
+				for (var i = 1; i <= x; i++) {
+					console.log('Counting up!: ' + i);
+				}
+				for (i = x; i > 0; i--) {
+					console.log('Counting down!: ' + i);
+				}
+			}
+			
+			function condish(x, y) {
+				if (x > y) {
+					console.log(x + ' is greater than ' + y);
+				} else if (x < y) {
+					console.log(x + ' is less than ' + y);
+				} else {
+					console.log(x + ' is equal to ' + y);
+				}
+			}
+
+			function arrayPlay() {
+				cars.push("Ford");
+				cars.push("Chevrolet");
+				cars.push("Dodge");
+				console.log(cars);
+			}
+
+			function getFromArray(int) {
+				if (int <= (cars.length - 1)) {
+					console.log(cars[int]);
+				} else {
+					console.log("Please choose a number between 0 and " + (cars.length - 1));
+				}
+			}
+
+			function addToArray(car) {
+				console.log(cars);
+				cars.push(car);
+				console.log(cars);
+			}
+
+			function reassign(int, car) {
+				console.log(cars);
+				if (int > cars.length) {
+					cars.push(car);
+				} else {
+					cars[int] = car;
+				}
+				console.log(cars);
+			}
+		</script>
+	</head>
+	<body>
+		<ol>
+			<li>Start by opening your web console.</li>
+			<li>You'll see a message: "Starting code".</li>
+			<li>JavaScript code can be executed alone, or in named blocks, called functions.
+				<ul>
+					<li>"Starting code" was executed as soon as the page was ready, outside of any function.</li>
+				</ul>
+			</li>
+			<li>Three functions are provided to demonstrate basic JavaScript syntax: loopy, condish, arrayPlay, getFromArray, addToArray, and reassign.
+				<ul>
+					<li>loopy takes one argument, like this: <span class="code">loopy(5)</span>. It will count up to the number provided, then down from there to 1.</li>
+					<li>condish takes two arguments, like this: <span class="code">condish('a','b')</span>. It compares the two values, if possible, and logs a message.</li>
+					<li>arrayPlay demonstrates a basic array. You can call it in the console like this: <span class="code">arrayPlay();</span></li>
+					<li>getFromArray returns an item from the array. Arrays start on item 0, so the first item has index 0, the second item has index 1, and so on. Try it out like this: <span class="code">getFromArray(1);</span>. Hint: try <span class="code">getFromArray(3);</span></li>
+					<li>addToArray adds another item to the array. Try it out! <span class="code">addToArray("Nissan");</span></li>
+					<li>reassign takes an int (which position to reassign) and another car: <span class="code">reassign(1, "Lamborghini");</span>. If you try a position that's too big, it will just put your new car at the end of the array.</li>
+					<li>You can try them out in the console!</li>
+				</ul>
+			</li>
+		</ol>
+	</body>
+</html>

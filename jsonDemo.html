@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+	<head>
+		<title>JSON Functions Demo</title>
+		<link rel="stylesheet" href="stylesheets/style.css">
+		<script>
+			var car = {
+				make		: "Volkswagen",
+				model		: "Jetta TDI",
+				year		: 2016,
+				color		: "blue",
+				engineInfo	: {
+					hp		: 150,
+					liters	: 2.0,
+					cylinder: 4
+				},
+				mpg			: {
+					city	: 31,
+					hw		: 46
+				}
+			}
+
+			var str = JSON.stringify(car);
+
+			var obj = JSON.parse(str);
+
+			function showString() {
+				console.log(str);
+			}
+
+			function showObject() {
+				console.log(obj);
+			}
+		</script>
+	</head>
+	<body>
+		<p>JSON stands for <b>J</b>ava<b>S</b>cript <b>O</b>bject <b>N</b>otation. It is an easy way to represent and transmit data contained in objects.</p>
+		<ul>For this example we have an object <span class="code">var car = { make: "Volkswagen", model: "Jetta TDI", year: 2016, color: "blue", engineInfo: { hp: 150, liters: 2.0, cylinder: 4 }, mpg: { city: 31, hw: 46} }</span>
+			<li><span class="code">JSON.stringify(<i>obj</i>)</span> converts a JavaScript object into a string in JSON format. Try <span class="code">console.log(JSON.stringify(car))</span> in your console.</li>
+			<li><span class="code">JSON.parse(<i>str</i>)</span> converts a string in JSON format into a JavaScript object. Try <span class="code">console.log(JSON.parse(str))</span> in your console.</li>
+		</ul>
+		<pre id="json"></pre>
+	</body>
+</html>

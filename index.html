@@ -1,0 +1,158 @@
+<!doctype html>
+<html>
+<head>
+	<title>CIT 261</title>
+	<link rel="stylesheet" href="stylesheets/style.css">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+	<script>
+		function fetchHeader(url, wch) {
+			try {
+				var req = new XMLHttpRequest();
+				req.open("HEAD", url, false);
+				req.send(null);
+				if (req.status === 200) {
+					return req.getResponseHeader(wch);
+				}
+				else return false;
+			} catch (er) {
+				return er.message;
+			}
+		}
+
+		function readFileInfo() {
+			for (var i = 1; i <= 13; i++) {
+				var dateNode = document.getElementById("date" + i);
+				var parent = dateNode.parentElement;
+				var row = parent.children[2];
+				var fileNode = row.children[0];
+				var file = fileNode.getAttribute("href");
+				var date = new Date(fetchHeader(file, 'Last-Modified'));
+				dateNode.innerHTML = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
+			}
+		}
+	</script>
+</head>
+	<body>
+		<table class="index">
+			<tr>
+				<th>Assignment</th>
+				<th>Description</th>
+				<th>Link</th>
+				<th>Last Updated</th>
+				<th>Notes</th>
+			</tr>
+			<tr>
+				<td>1</td>
+				<td class="desc">JavaScript - Loops, Conditionals, Functions, Arrays</td>
+				<td class="link"><a href="basicJSDemo.html">Click Me!</a></td>
+				<td id="date1"></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>2</td>
+				<td class="desc">JavaScript - Objects, Properties, Methods, Instantiation</td>
+				<td class="link"><a href="moreJSDemo.html">Click Me!</a></td>
+				<td id="date2"></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>3</td>
+				<td class="desc">JSON</td>
+				<td class="link"><a href="jsonDemo.html">Click Me!</a></td>
+				<td id="date3"></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>4</td>
+				<td class="desc">AJAX</td>
+				<td class="link"><a href="ajaxDemo.html">Click Me!</a></td>
+				<td id="date4"></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>5</td>
+				<td class="desc">Local Storage</td>
+				<td class="link"><a href="localStorageDemo.html">Click Me!</a></td>
+				<td id="date5"></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>6</td>
+				<td class="desc">DOM Manipulation</td>
+				<td class="link"><a href="domDemo.html">Click Me!</a></td>
+				<td id="date6"></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>7</td>
+				<td class="desc">Manipulate CSS Class Properties</td>
+				<td class="link"><a href="cssClassesDemo.html">Click Me!</a></td>
+				<td id="date7"></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>8</td>
+				<td class="desc">CSS3 Transitions/Animations</td>
+				<td class="link"><a href="css3Demo.html">Click Me!</a></td>
+				<td id="date8"></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>9</td>
+				<td class="desc">JavaScript Events</td>
+				<td class="link"><a href="jsEventsDemo.html">Click Me!</a></td>
+				<td id="date9"></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>10</td>
+				<td class="desc">HTML5 Tags</td>
+				<td class="link"><a href="html5Demo.html">Click Me!</a></td>
+				<td id="date10"></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>11</td>
+				<td class="desc">CSS3 Transitions</td>
+				<td class="link"><a href="css3TransitionsDemo.html">Click Me!</a></td>
+				<td id="date11"></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>12</td>
+				<td class="desc">CSS3 Transforms</td>
+				<td class="link"><a href="css3TransformsDemo.html">Click Me!</a></td>
+				<td id="date12"></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>13</td>
+				<td class="desc">CSS3 Animations</td>
+				<td class="link"><a href="css3AnimationsDemo.html">Click Me!</a></td>
+				<td id="date13"></td>
+				<td></td>
+			</tr>
+		</table>
+	</body>
+	<script>
+		document.addEventListener('DOMContentLoaded', readFileInfo(), false);
+	</script>
+</html>
+
+<!--
+
+    JavaScript – Loops, Conditional Statements, Functions, Arrays
+    JavaScript – Object Creation Functions, Properties, Methods, Instantiation
+    JSON Parse, Stringify
+    Using AJAX to Consume a JSON Web Service
+    Local Storage Storing and Retrieving Arrays, Associative Arrays, and Objects
+    DOM Manipulation Using createElement, appendChild, insertBefore etc.
+    Manipulating CSS Class Properties Using JavaScript
+    CSS3 Transitions and Animations and triggering them with JavaScript
+    JavaScript Events Especially for Mobile Devices (onTouchBegin) and Animation and Transition Events
+    HTML5 Tags - Video, Audio, and Canvas
+    Designing, Defining, and Triggering CSS3 Transitions without Custom Libraries
+    Designing, Defining, and Triggering CSS3 Transforms without Custom Libraries
+    Designing, Defining, and Triggering CSS3 Animations without Custom Libraries
+
+-->

@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+	<head>
+		<title>AJAX</title>
+		<link rel="stylesheet" href="stylesheets/style.css">
+		<script>
+			function ajax() {
+				var artist = document.getElementById('artist').value;
+				var title = document.getElementById('title').value;
+				if (artist === "" || title === "") {
+					window.alert("Please enter both an artist and a title.");
+					return;
+				}
+				sendAJAX(artist, title);
+			}
+
+			function sendAJAX(artist, title) {
+				var xhr = new XMLHttpRequest();
+				xhr.open('GET', 'https://api.lyrics.ovh/v1/' + artist + '/' + title);
+				xhr.send(null);
+				xhr.onreadystatechange = function() {
+					var DONE = 4;
+					var OK = 200;
+					if (xhr.readyState === DONE) {
+						if (xhr.status === OK) {
+							var song = JSON.parse(xhr.responseText);
+							var lyrics = song.lyrics;
+							var format = document.getElementById('formattedAjax');
+							format.innerHTML = lyrics;
+						} else {
+							console.log("Error: " + xhr.status);
+						}
+					}
+				}
+			}
+		</script>
+	</head>
+	<body>
+		<h2>Enter information below to retrieve song lyrics.</h2>
+		Artist: <input type="text" id="artist" name="artist"/>
+		Title: <input type="text" id="title" name="title"/>
+		<button type="button" onclick="ajax()">Send</button>
+		<pre id="formattedAjax"></pre>
+	</body>
+</html>

@@ -1,0 +1,127 @@
+@import url('https://fonts.googleapis.com/css?family=Anonymous+Pro');
+
+* {
+	font-family: 'Lato', sans-serif;
+}
+
+a {
+	text-decoration: none;
+	background-color: #dfdfdf;
+	border-radius: 7px;
+	padding: 2px;
+	color: black;
+	font-size: small;
+	text-align: center;
+}
+
+a:hover {
+	background-color: #afafaf;
+}
+
+.index, .index tr, .index th, .index td {
+	border-collapse: collapse;
+	border: 1px solid #000;
+	padding: 10px;
+}
+
+.index td a {
+	display: block;
+	width: 100%;
+}
+
+.desk {
+	display: block;
+	width: 100%;
+}
+
+.index td:first-child {
+	text-align: right;
+}
+
+span.code {
+	font-family: 'Anonymous Pro', monospace;
+	padding: 2px;
+	border: 1px solid #dfdfdf;
+}
+
+.code-block {
+	font-family: 'Anonymous Pro', monospace;
+	padding: 2px;
+	border: 1px solid #dfdfdf;
+	display: inline-block;
+}
+
+ul, ol, li {
+	/*padding-top: 3px;
+	padding-bottom: 3px;*/
+	line-height: 24px;
+}
+
+.lyric-edit-box {
+	width: 500px;
+	height: 550px;
+}
+
+#snackbar {
+	visibility: hidden;
+	min-width: 250px;
+	margin-left: -125px;
+	background-color: #333;
+	color: #fff;
+	text-align: center;
+	border-radius: 2px;
+	padding: 16px;
+	position: fixed;
+	z-index: 1;
+	left: 50%;
+	bottom: 30px;
+}
+
+#snackbar.show {
+	visibility: visible;
+	-webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+	animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+.div-inline td {
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+@-webkit-keyframes fadein {
+	from {bottom: 0; opacity: 0;}
+	to {bottom: 30px; opacity: 1;}
+}
+
+@keyframes fadein {
+	from {bottom: 0; opacity: 0;}
+	to {bottom: 30px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+	from {bottom: 30px; opacity: 1;} 
+    to {bottom: 0; opacity: 0;}
+}
+
+@keyframes fadeout {
+	from {bottom: 30px; opacity: 1;} 
+    to {bottom: 0; opacity: 0;}
+}
+
+#selector, #selector td, #selector th {
+	padding-left: 10px;
+	padding-right: 10px;
+	border-right: 1px solid black;
+	border-left: 1px solid black;
+	border-collapse: collapse;
+}
+
+.from {
+	font-size: 1.5em;
+	color: blue;
+}
+
+.to {
+	font-size: 1.5em;
+	color: green;
+}

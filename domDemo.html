@@ -1,0 +1,153 @@
+<!doctype html>
+<html>
+<head>
+	<title>DOM Manipulation Demo</title>
+	<link rel="stylesheet" href="stylesheets/style.css">
+	<script>
+		var currency = {
+			AUD : "Australian dollar",
+			BGN : "Bulgarian lev",
+			BRL : "Brazilian real",
+			CAD : "Canadian dollar", 
+			CHF : "Swiss franc", 
+			CNY : "Chinese yuan renminbi", 
+			CZK : "Czech koruna", 
+			DKK : "Danish krone", 
+			EUR : "European euro", 
+			GBP : "Pound sterling", 
+			HKD : "Hong Kong dollar", 
+			HRK : "Croatian kuna", 
+			HUF : "Hungarian forint", 
+			IDR : "Indonesian rupiah", 
+			ILS : "Israeli shekel", 
+			INR : "Indian rupee", 
+			ISK : "Icelandic krona", 
+			JPY : "Japanese yen", 
+			KRW : "South Korean won", 
+			MXN : "Mexican peso",
+			MYR : "Malaysian ringgit",
+			NOK : "Norwegian krone",
+			NZD : "New Zealand dollar",
+			PHP : "Philippine peso",
+			PLN : "Polish zloty",
+			RON : "Romanian leu",
+			RUB : "Russian rouble",
+			SEK : "Swedish krona",
+			SGD : "Singapore dollar",
+			THB : "Thai baht",
+			TRY : "Turkish lira",
+			USD : "US dollar",
+			ZAR : "South African rand"
+		}
+
+		var keys = Object.keys(currency);
+
+		/**
+			type - the type of currency in question (string)
+			ret - the type of currency to return (string)
+			amount - the amount to be converted (int, float)
+		*/
+		function convert(type, ret, amount) {
+			if ((type in currency) && (ret in currency)) {
+				if (type === ret) { // no need to convert same currency
+					document.getElementById('result').innerHTML = `<span class="from">${amount} ${currency[type]}(s)</span> is <span class="to">${amount} ${currency[ret]}(s)</span>`
+				} else {
+					var xhr = new XMLHttpRequest();
+					xhr.open('GET', 'https://api.fixer.io/latest?base=' + type);
+					xhr.send(null);
+					xhr.onreadystatechange = function() {
+						var DONE = 4;
+						var OK = 200;
+						if (xhr.readyState === DONE) {
+							if (xhr.status === OK) {
+								var response = JSON.parse(xhr.responseText);
+								// console.log(response);
+								// console.log(currency[ret]);
+								var result = (amount * response.rates[ret]).toFixed(2);
+								document.getElementById('result').innerHTML = `<span class="from">${amount} ${currency[type]}(s)</span> is <span class="to">${result} ${currency[ret]}(s)</span>`
+							} else {
+								console.log("Error: " + xhr.status);
+							}
+						}
+					}
+				}
+			} else {
+				return -1;
+			}
+		}
+
+		function gatherValues() {
+			var amt = document.getElementById('amount').value;
+			var from = document.querySelector('input[name="currencyFrom"]:checked').value;
+			var to = document.querySelector('input[name="currencyTo"]:checked').value;
+			convert(from, to, amt);
+		}
+
+
+		function addRadios(item, index) {
+			var from = document.getElementById('curFrom');
+			var to = document.getElementById('curTo');
+			var cr1 = document.createElement('br');
+			var cr2 = document.createElement('br');
+
+			var radio1 = document.createElement('input');
+			radio1.setAttribute('type', 'radio');
+			radio1.setAttribute('name', 'currencyFrom');
+			radio1.setAttribute('value', item);
+			radio1.setAttribute('id', `from${item}${index}`);
+			radio1.setAttribute('onclick', 'gatherValues()');
+
+			var label1 = document.createElement('label');
+			label1.setAttribute('for', `from${item}${index}`);
+
+			var text1 = document.createTextNode(` ${currency[item]}`);
+			label1.appendChild(text1);
+			from.appendChild(radio1);
+			from.appendChild(label1);
+			from.appendChild(cr1);
+
+			var radio2 = document.createElement('input');
+			radio2.setAttribute('type', 'radio');
+			radio2.setAttribute('name', 'currencyTo');
+			radio2.setAttribute('value', item);
+			radio2.setAttribute('id', `to${item}${index}`);
+			radio2.setAttribute('onclick', 'gatherValues()');
+
+			var label2 = document.createElement('label');
+			label2.setAttribute('for', `to${item}${index}`);
+
+			var text2 = document.createTextNode(` ${currency[item]}`);
+			label2.appendChild(text2);
+			to.appendChild(radio2);
+			to.appendChild(label2);
+			to.appendChild(cr2);
+		}
+
+		function load() {
+			keys.forEach(addRadios);
+			document.getElementsByName('currencyFrom')[0].checked = true;
+			document.getElementsByName('currencyTo')[0].checked = true;
+		}
+	</script>
+</head>
+<body onload='load()'>
+	<input type='number' name='amount' id='amount' onchange='gatherValues()'>
+	<!-- <button onclick='gatherValues()'>Submit</button> -->
+	<hr />
+	<table id="selector">
+		<tr>
+			<th>Convert From</th>
+			<th>Convert To</th>
+		</tr>
+		<tr>
+			<td>
+				<div id='curFrom' class="radio"></div>
+			</td>
+			<td>
+				<div id="curTo" class="radio"></div>
+			</td>
+		</tr>
+	</table>
+	<p id="result"></p>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!doctype html>
+<html>
+	<head>
+		<title>More JS Demo</title>
+		<link rel="stylesheet" href="stylesheets/style.css">
+		<script>
+			function objectTest() {
+				var person1 = {
+					name:"John Smith",
+					age:25,
+					hairColor:"blonde",
+					eyeColor:"green",
+					birthday: function () {
+						this.age++;
+					},
+					hairDye: function (color) {
+						this.hairColor = color;
+					}
+				}
+				console.log(person1);
+				person1.birthday();
+				console.log(person1);
+				person1.hairDye("blue");
+				console.log(person1);
+			}
+
+			function Person(name, age, hairColor, eyeColor) {
+				this.name = name;
+				this.age = age;
+				this.hairColor = hairColor;
+				this.eyeColor = eyeColor;
+				this.birthday = function () {
+					this.age++;
+				}
+				this.hairDye = function (color) {
+					this.hairColor = color;
+				}
+			}
+
+			var names = ['John Smith', 'Jane Doe', 'Bobby Newport', 'Punchy'];
+			var ages = [25, 27, 34, 41];
+			var hairColors = ['blonde', 'brown', 'red', 'black'];
+			var eyeColors = ['green', 'blue', 'green', 'brown'];
+
+			function moreObjects() {
+				var person;
+				for (var i = 0; i < names.length; i++) {
+					person = new Person(names[i], ages[i], hairColors[i], eyeColors[i]);
+					console.log(person);
+					person.birthday();
+					console.log(person);
+					person.hairDye("hot pink");
+				}
+			}
+		</script>
+	</head>
+	<body>
+		<div>
+			<ul>Objects are a special type of variable that can contain multiple values in name:value pairs. They are used when multiple things need the same information, but also need to be separate, like two people: John Smith and Jane Doe.
+				<li>Objects are declared or instantiated like this: <span class="code">var person1 = {name:"John Smith", age:25, hairColor:"blonde", eyeColor:"green"}</span></li>
+				<li>In the previous example, name, age, hairColor and eyeColor are "properties", or something that object has.</li>
+				<li>You can also have functions assigned to an object. An object with a method looks like this: 
+					<span class="code">var person1 = {name:"John Smith", age:25, hairColor:"blonde", eyeColor:"green", birthday:function() { age++; }}</span>
+				</li>
+				<li>Object functions are called methods.</li>
+			</ul>
+		</div>
+	</body>
+</html>

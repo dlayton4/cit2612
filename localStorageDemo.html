@@ -1,0 +1,95 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Local Storage Demo</title>
+		<link rel="stylesheet" href="stylesheets/style.css">
+		<script>
+
+			function toast(text) {
+				var x = document.getElementById("snackbar");
+				x.innerHTML = text;
+				x.className = "show";
+				setTimeout(function() {
+					x.className = x.className.replace("show", "");
+				}, 3000);
+			}
+
+			function compare() {
+				document.getElementById('ogLyrics').value = localStorage.getItem("ogLyrics");
+				document.getElementById('changedLyrics').value = localStorage.changedLyrics;
+			}
+
+			function saveChanges() {
+				var changed = document.getElementById('changedLyrics').value;
+/*=======>*/	localStorage.changedLyrics = changed;
+				toast("Text saved!");
+			}
+
+			function ajax() {
+				var artist = document.getElementById('artist').value;
+				var title = document.getElementById('title').value;
+				if (artist === "" || title === "") {
+					window.alert("Please enter both an artist and a title.");
+					return;
+				}
+				sendAJAX(artist, title);
+			}
+
+			function sendAJAX(artist, title) {
+				var xhr = new XMLHttpRequest();
+				xhr.open('GET', 'https://api.lyrics.ovh/v1/' + artist + '/' + title);
+				xhr.send(null);
+				xhr.onreadystatechange = function() {
+					var DONE = 4;
+					var OK = 200;
+					if (xhr.readyState === DONE) {
+						if (xhr.status === OK) {
+							var song = JSON.parse(xhr.responseText);
+							var lyrics = song.lyrics;
+/*===================>*/	localStorage.setItem("ogLyrics", lyrics);
+							toast("Lyrics found!");
+							var format = document.getElementById('changedLyrics');
+							format.value = lyrics;
+							document.getElementById('nextStep').style.display = 'block';
+						} else {
+							console.log("Error: " + xhr.status);
+						}
+					}
+				}
+			}
+		</script>
+	</head>
+	<body>
+		<div>
+			<h2>Enter information below to retrieve song lyrics.</h2>
+			Artist: <input type="text" id="artist" name="artist"/><br>
+			Title: <input type="text" id="title" name="title"/><br>
+			<button type="button" onclick="ajax()">Send</button>
+		</div><hr><br>
+
+		<div id="nextStep" style="display:none">
+			<table class="div-inline">
+				<tr>
+					<th>Changed</th>
+					<th>Original</th>
+				</tr>
+				<tr>
+					<td>
+						<div id="changed">
+							<textarea id="changedLyrics" class="lyric-edit-box"></textarea><br>
+							<button type="button" onclick="saveChanges()">Save Changes</button>
+						</div>
+					</td>
+					<td>
+						<div id="og">
+							<textarea id="ogLyrics" class="lyric-edit-box"></textarea><br>
+							<button type="button" onclick="compare()">Compare</button>
+						</div>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+		<div id="snackbar"></div>
+	</body>
+</html>
