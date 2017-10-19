@@ -1,0 +1,92 @@
+<!doctype html>
+<html>
+	<head>
+		<title>HTML5 Tags</title>
+		<link rel="stylesheet" href="stylesheets/html5.css">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+	</head>
+	<body>
+		<section class="container">
+			<div id="card">
+				<div class="front">
+					<svg id="startButton" cursor="pointer">
+						<defs>
+							
+						</defs>
+						<ellipse cx="100" cy="70" rx="85" ry="55" fill="#777" />
+						<text fill="#fff" font-size="45" x="50" y="86">Start!</text>
+					</svg>
+				</div>
+				<div class="back">
+					<canvas id="myCanvas"></canvas>
+				</div>
+			</div>
+		</section>
+	</body>
+	<script>
+		var canvas = document.getElementById('myCanvas');
+
+		var getMousePos = function(canvas, evt) {
+			var rect = canvas.getBoundingClientRect();
+			return {
+				x: evt.clientX - rect.left,
+				y: evt.clientY - rect.top
+			};
+		};
+
+		canvas.addEventListener('mousemove', function(e) {
+			var mousePos = getMousePos(canvas, e);
+			// make sure x and y are within bounds
+			if ((mousePos.x >= 20 && mousePos.x <= 45) && (mousePos.y >= 20 && mousePos.y <= 45)) {
+				document.getElementById("myCanvas").style.cursor = "pointer";
+			} else {
+				document.getElementById("myCanvas").style.cursor = "auto";
+			}
+		}, false);
+
+		canvas.addEventListener('click', function(e) {
+			var mousePos = getMousePos(canvas, e);
+			// make sure x and y are within bounds
+			if ((mousePos.x >= 20 && mousePos.x <= 45) && (mousePos.y >= 20 && mousePos.y <= 45)) {
+				card.toggleClassName('flipped');
+			}
+		}, false);
+
+		var ctx = canvas.getContext('2d');
+		ctx.fillStyle = '#eee';
+
+		ctx.font = "10px Arial";
+		ctx.fillStyle = "#000";
+		ctx.fillText("Exit", 10, 20);
+
+		Element.prototype.hasClassName = function (a) {
+		    return new RegExp("(?:^|\\s+)" + a + "(?:\\s+|$)").test(this.className);
+		};
+
+		Element.prototype.addClassName = function (a) {
+		    if (!this.hasClassName(a)) {
+		        this.className = [this.className, a].join(" ");
+		    }
+		};
+
+		Element.prototype.removeClassName = function (b) {
+		    if (this.hasClassName(b)) {
+		        var a = this.className;
+		        this.className = a.replace(new RegExp("(?:^|\\s+)" + b + "(?:\\s+|$)", "g"), " ");
+		    }
+		};
+
+		Element.prototype.toggleClassName = function (a) {
+		  this[this.hasClassName(a) ? "removeClassName" : "addClassName"](a);
+		};
+
+		var init = function() {
+			var card = document.getElementById('card');
+			document.getElementById('startButton').addEventListener('click', function() {
+				card.toggleClassName('flipped');
+			}, false);
+		};
+
+		window.addEventListener('DOMContentLoaded', init, false);
+	</script>
+</html>
