@@ -1,0 +1,99 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Media Search Tool</title>
+		<script>
+			var checkedEl;
+
+			function bookSearch() {
+				var xhr = new XMLHttpRequest();
+				xhr.open('GET', 'https://www.googleapis.com/books/v1/volumes?q=flowers+inauthor:keyes&key=AIzaSyBUP45r4xmTd2f_8pAkRJrPvazhJjEMYmk&country=US');
+				// https://console.developers.google.com/apis/dashboard?project=media-search-tool
+				xhr.send(null);
+				xhr.onreadystatechange = function() {
+					var DONE = 4;
+					var OK = 200;
+					if (xhr.readyState === DONE) {
+						if (xhr.status === OK) {
+							var response = JSON.parse(xhr.responseText);
+							console.log(response);
+						}
+					}
+				}
+			}
+
+			function load() {
+				checkedEl = document.querySelector('input[name="media"]:checked');
+			}
+
+			function getCheckedElement() {
+				var els = document.getElementsByName("media");
+				for (var i = 0; i < els.length; i++) {
+					if (els[i].checked = true) {
+						return els[i].value;
+					}
+				}
+			}
+
+			function hide() {
+				document.getElementById(checkedEl.value).toggleClassName("hidden");
+				document.getElementById(document.querySelector('input[name="media"]:checked').value).toggleClassName("hidden");
+				checkedEl = document.querySelector('input[name="media"]:checked');
+			}
+
+			Element.prototype.hasClassName = function(a) {
+				return new RegExp("(?:^|\\s+)" + a + "(?:\\s+|$)").test(this.className);
+			};
+
+			Element.prototype.addClassName = function(a) {
+				if (!this.hasClassName(a)) {
+			        this.className = [this.className, a].join(" ");
+			    }
+			};
+
+			Element.prototype.removeClassName = function(b) {
+				if (this.hasClassName(b)) {
+			        var a = this.className;
+			        this.className = a.replace(new RegExp("(?:^|\\s+)" + b + "(?:\\s+|$)", "g"), " ");
+			    }
+			};
+
+			Element.prototype.toggleClassName = function(a) {
+				this[this.hasClassName(a) ? "removeClassName" : "addClassName"](a);
+			};
+		</script>
+		<link rel="stylesheet" href="stylesheets/media.css">
+		<style>
+			.hidden {
+				display: none;
+			}
+		</style>
+	</head>
+	<body onload="load()">
+		<label for="musicMedia"><input type="radio" onclick="hide()" name="media" id="musicMedia" value="music" checked>Music</label>
+		<label for="movieMedia"><input type="radio" onclick="hide()" name="media" id="movieMedia" value="movie">Movie</label>
+		<label for="tvMedia"><input type="radio" onclick="hide()" name="media" id="tvMedia" value="tv">TV</label>
+		<label for="bookMedia"><input type="radio" onclick="hide()" name="media" id="bookMedia" value="book">Book</label>
+		<hr />
+		<div id="search" class="side-by-side">
+			<div id="music">
+				<input placeholder="Title" type="text"><br><br>
+				<input placeholder="Artist" type="text">
+			</div>
+			<div id="movie" class="hidden">
+				<input placeholder="Title" type="text"><br><br>
+				<input placeholder="Actor" type="text">
+			</div>
+			<div id="tv" class="hidden">
+				<input placeholder="Title" type="text">
+			</div>
+			<div id="book" class="hidden">
+				<input placeholder="Title" type="text"><br><br>
+				<input placeholder="Author" type="text">
+			</div>
+		</div>
+		<div id="display" class="side-by-side">
+			Checking here...
+		</div>
+	</body>
+</html>
