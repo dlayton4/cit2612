@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+	<head>
+		<title>JavaScript Events</title>
+	</head>
+	<body>
+		<form id="msgbox" action="#" method="get">
+			<label for="msg">your message</label>
+			<input id="msg" value="" />
+			<button>SEND</button>
+		</form>
+		<script>
+			document.getElementById("msgbox").addEventListener("submit", newMessageHandler, false);
+
+			function newMessageHandler(e) {
+				e.preventDefault();
+				var msg = document.getElementById("msg").value.trim();
+
+				if (msg && window.CustomEvent) {
+					var event = new CustomEvent(
+						"newMessage",
+						{
+							detail: {
+								message: "Hello World!",
+								time: new Date(),
+							},
+							bubbles: true,
+							cancelable: true
+						}
+					);
+
+					e.currentTarget.dispatchEvent(event);
+				}
+			}
+
+			document.addEventListener("newMessage", function(e) {
+				console.log("Event subscriber on " + e.currentTarget.nodeName + ", " + e.detail.time.toLocaleString() + ": " + e.detail.message);
+			}, false);
+		</script>	
+	</body>
+</html>

@@ -1,0 +1,71 @@
+<!doctype html>
+<html>
+	<head>
+		<link rel="stylesheet" href="stylesheets/classes.css"> <!---->
+		<script>
+			Element.prototype.hasClassName = function(a) {
+				return new RegExp("(?:^|\\s+)" + a + "(?:\\s+|$)").test(this.className);
+			};
+
+			Element.prototype.addClassName = function(a) {
+				if (!this.hasClassName(a)) {
+			        this.className = [this.className, a].join(" ");
+			    }
+			};
+
+			Element.prototype.removeClassName = function(b) {
+				if (this.hasClassName(b)) {
+			        var a = this.className;
+			        this.className = a.replace(new RegExp("(?:^|\\s+)" + b + "(?:\\s+|$)", "g"), " ");
+			    }
+			};
+
+			Element.prototype.toggleClassName = function(a) {
+				this[this.hasClassName(a) ? "removeClassName" : "addClassName"](a);
+			};
+
+			function switcheroo() {
+				document.body.toggleClassName("demo1");
+				document.body.toggleClassName("demo2");
+			}
+		</script>
+	</head>
+	<body class="demo1">
+		<button onclick="switcheroo()">Change it Up</button>
+		<div>
+			<h1>Lorem ipsum.</h1>
+			<h2>Lorem ipsum dolor.</h2>
+			<h3>Lorem.</h3>
+			<h4>Lorem ipsum dolor sit.</h4>
+			<h5>Lorem ipsum dolor sit amet, consectetur adipisicing.</h5>
+			<ul>Unordered List
+				<li>
+					<p>Item 1</p>
+				</li>
+				<li>
+					<p>Item 2</p>
+				</li>
+				<li>
+					<p>Item 3</p>
+				</li>
+				<li>
+					<p>Item 4</p>
+				</li>
+				<li>
+					<p>Item 5</p>
+				</li>
+			</ul>
+			<ol>Ordered List
+				<li>
+					<p>Item 1</p>
+				</li>
+				<li>
+					<p>Item 2</p>
+				</li>
+				<li>
+					<p>Item 3</p>
+				</li>
+			</ol>
+		</div>
+	</body>
+</html>

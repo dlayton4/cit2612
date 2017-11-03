@@ -1,0 +1,112 @@
+<!doctype html>
+<html>
+	<head>
+		<script>
+			var DONE = 4;
+			var OK = 200;
+			var player_count = 2;
+
+			function newDeck() {
+				var xhr = new XMLHttpRequest();
+				xhr.open('GET', 'https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1');
+				xhr.send(null);
+				xhr.onreadystatechange = function() {
+					if (xhr.readyState === DONE) {
+						if (xhr.status === OK) {
+							localStorage.setItem("newDeck", xhr.responseText);
+							// console.log(xhr.responseText);
+						}
+					}
+				}
+			}
+
+			function reshuffle() {
+				var deck = localStorage.getItem("newDeck");
+				var deck_json = JSON.parse(deck);
+				var user_deck_id = deck_json.deck_id;
+
+				var ajax = new XMLHttpRequest();
+				ajax.open('GET', `https://deckofcardsapi.com/api/deck/${user_deck_id}/shuffle/`);
+				ajax.send(null);
+				ajax.onreadystatechange = function() {
+					if (ajax.readyState === DONE) {
+						if (ajax.status === OK) {
+							console.log("Reshuffle deck...");
+							console.log(ajax.responseText);
+						}
+					}
+				}
+			}
+
+			function deal(count) {
+				reshuffle();
+
+				var deck = localStorage.getItem("newDeck");
+				var deck_json = JSON.parse(deck);
+				var user_deck_id = deck_json.deck_id;
+
+				var deal_xhr = new XMLHttpRequest();
+				// for (var i = 0; i < count; i++) {
+					for (var j = 0; j < player_count; j++) {
+						deal_xhr.open('GET', `https://deckofcardsapi.com/api/deck/${user_deck_id}/draw/?count=5`);
+						deal_xhr.send(null);
+						deal_xhr.onreadystatechange = function() {
+							if (deal_xhr.readyState === DONE) {
+								if (deal_xhr.status === OK) {
+									console.log("Draw card...");
+									addToHand(user_deck_id, `player${j}`, JSON.parse(deal_xhr.responseText));
+								}
+							}
+						}
+					}
+				// }
+				
+				// console.log(user_deck_id);
+				show();
+			}
+
+			function addToHand(deck_id, hand_name, card) {
+				var hand_xhr = new XMLHttpRequest();
+				var codes = [];
+				for (var i = 0; i < card.cards.length; i++) {
+					var code = card.cards[i].code;
+					codes.push(code);
+				}
+				var joined = codes.join(',');
+				hand_xhr.open('GET', `https://deckofcardsapi.com/api/deck/${deck_id}/pile/${hand_name}/add/?cards=${joined}`);
+				hand_xhr.send(null);
+				hand_xhr.onreadystatechange = function() {
+					if (hand_xhr.readyState === DONE) {
+						if (hand_xhr.status === OK) {
+							console.log("success"); //console.log(JSON.parse(xhr.responseText));
+							console.log(JSON.parse(hand_xhr.responseText));
+						}
+					}
+				}
+			}
+
+			function show() {
+				var deck = localStorage.getItem("newDeck");
+				var deck_json = JSON.parse(deck);
+				var user_deck_id = deck_json.deck_id;
+
+				var show_xhr = new XMLHttpRequest();
+				show_xhr.open('GET', `https;//deckofcardsapi.com/api/deck/${user_deck_id}/`);
+				show_xhr.send(null);
+				show_xhr.onreadystatechange = function() {
+					if (show_xhr.readyState === DONE) {
+						if (show_xhr.status === OK) {
+							console.log(JSON.parse(show_xhr.responseText));
+						}
+					}
+				}
+			}
+
+		</script>	
+	</head>
+	<body>
+		<div id="p1">
+			
+		</div>
+	</body>
+</html>

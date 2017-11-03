@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css?family=Anonymous+Pro');
+
+.demo1 * {
+	font-family: 'Lato', sans-serif;
+}
+
+.demo1 button {
+	border-radius: 5px;
+}
+
+.demo1 ol {
+	list-style-type: upper-roman;
+}
+
+.demo1 ul {
+	list-style-type: circle;
+}
+
+.demo2 * {
+	font-family: serif;
+}
+
+.demo2 button {
+	border-radius: 0px;
+}
+
+.demo2 ol {
+	list-style-type: lower-alpha;
+}
+
+.demo2 ul {
+	list-style-type: square;
+}
