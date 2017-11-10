@@ -1,7 +1,13 @@
 <!doctype html>
 <html>
 	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 		<title>JavaScript Events</title>
+		<style>
+			#myCanvas {
+				background-color: #afafaf;
+			}
+		</style>
 	</head>
 	<body>
 		<form id="msgbox" action="#" method="get">
@@ -9,7 +15,17 @@
 			<input id="msg" value="" />
 			<button>SEND</button>
 		</form>
+		<br />
+		<canvas id="myCanvas" height=480 width=600 ontouchstart="outline(this, true)" ontouchend="outline(this, false)"></canvas>
 		<script>
+			document.body.addEventListener('touchmove', function(e) {
+				e.preventDefault();
+			}, false);
+
+			var canvas = document.getElementById("myCanvas");
+			var ctx = canvas.getContext("2d");
+			var color1 = "#"
+
 			document.getElementById("msgbox").addEventListener("submit", newMessageHandler, false);
 
 			function newMessageHandler(e) {
@@ -31,6 +47,15 @@
 
 					e.currentTarget.dispatchEvent(event);
 				}
+			}
+
+			function outline(elem, start) {
+				if (start) {
+					elem.style.borderColor = "yellow";
+					elem.style.borderWidth = "5px";
+				}
+				else
+					elem.style.borderColor = "white";
 			}
 
 			document.addEventListener("newMessage", function(e) {
