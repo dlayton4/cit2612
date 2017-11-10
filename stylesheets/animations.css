@@ -69,6 +69,27 @@
 	}
 }
 
+@keyframes text-grow {
+	from {
+		font-size: 16px;
+	}
+	to {
+		font-size: 24px;
+		text-shadow: 1px 1px 2px black;
+		letter-spacing: 2px;
+	}
+}
+.text {
+	position: absolute;
+	letter-spacing: 2px;
+	left: 0px;
+	top: 400px;
+	font-size: 24px;
+	text-shadow: 1px 1px 2px black;
+	animation-name: text-grow;
+	animation-duration: 4s;
+}
+
 #simple {
 	width: 100px;
 	height: 100px;
