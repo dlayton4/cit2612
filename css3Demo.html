@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Triggering CSS3 Animations and Transitions with JavaScript</title>
+		<style>
+			@keyframes grow {
+				from {
+					height: 100px;
+					width: 100px;
+				} to {
+					height: 200px;
+					width: 200px;
+				}
+			}
+
+			.growth {
+				animation-name: grow;
+				animation-duration: 5s;
+				animation-timing-function: ease-in;
+				height: 200px;
+				width: 200px;
+			}
+		</style>
+		<script>
+			Element.prototype.hasClassName = function (a) {
+			    return new RegExp("(?:^|\\s+)" + a + "(?:\\s+|$)").test(this.className);
+			};
+
+			Element.prototype.addClassName = function (a) {
+			    if (!this.hasClassName(a)) {
+			        this.className = [this.className, a].join(" ");
+			    }
+			};
+
+			Element.prototype.removeClassName = function (b) {
+			    if (this.hasClassName(b)) {
+			        var a = this.className;
+			        this.className = a.replace(new RegExp("(?:^|\\s+)" + b + "(?:\\s+|$)", "g"), " ");
+			    }
+			};
+
+			Element.prototype.toggleClassName = function (a) {
+			  this[this.hasClassName(a) ? "removeClassName" : "addClassName"](a);
+			};
+
+			function growDiv() {
+				var el = document.getElementById("growing")
+				el.toggleClassName("growth");
+				el.style.width = "200px";
+				el.style.height = "200px";
+			}
+		</script>
+	</head>
+	<body>
+		<div id="growing" style="background-color: #555; position: absolute; top: 100px; left: 100px; height: 100px; width: 100px;" onclick="growDiv()">
+
+		</div>
+	</body>
+</html>

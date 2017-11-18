@@ -7,14 +7,16 @@
 			var player_count = 2;
 
 			function newDeck() {
-				var xhr = new XMLHttpRequest();
-				xhr.open('GET', 'https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1');
-				xhr.send(null);
-				xhr.onreadystatechange = function() {
-					if (xhr.readyState === DONE) {
-						if (xhr.status === OK) {
-							localStorage.setItem("newDeck", xhr.responseText);
-							// console.log(xhr.responseText);
+				if (localStorage.getItem("newDeck") === null) {
+					var xhr = new XMLHttpRequest();
+					xhr.open('GET', 'https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1');
+					xhr.send(null);
+					xhr.onreadystatechange = function() {
+						if (xhr.readyState === DONE) {
+							if (xhr.status === OK) {
+								localStorage.setItem("newDeck", xhr.responseText);
+								// console.log(xhr.responseText);
+							}
 						}
 					}
 				}
@@ -32,7 +34,7 @@
 					if (ajax.readyState === DONE) {
 						if (ajax.status === OK) {
 							console.log("Reshuffle deck...");
-							console.log(ajax.responseText);
+							console.log(JSON.parse(ajax.responseText));
 						}
 					}
 				}
@@ -102,6 +104,8 @@
 				}
 			}
 
+			newDeck();
+			deal(5);
 		</script>	
 	</head>
 	<body>

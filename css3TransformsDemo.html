@@ -1,0 +1,95 @@
+<!doctype html>
+<html>
+	<head>
+		<title>CSS3 Transitions</title>
+		<style>
+			.container {
+				border: 1px solid #CCC;
+				height: 200px;
+				margin: 0 auto 60px;
+				position: relative;
+				-webkit-perspective: 600px;
+				   -moz-perspective: 600px;
+				     -o-perspective: 600px;
+				        perspective: 600px;
+				width: 200px;
+			}
+
+			.panel {
+				background: red;
+				color: white;
+				height: 100%;
+				opacity: 0.7;
+				position: absolute;
+				width: 100%;
+			}
+
+			#zoom-out .panel {
+				-webkit-transform: translateZ(200px);
+				   -moz-transform: translateZ(200px);
+				     -o-transform: translateZ(200px);
+				        transform: translateZ(200px);
+			}
+
+			#zoom-in .panel {
+				-webkit-transform: translateZ(-200px);
+				   -moz-transform: translateZ(-200px);
+				     -o-transform: translateZ(-200px);
+				        transform: translateZ(-200px);
+			}
+
+			#move-right .panel {
+				-webkit-transform: translateX(200px);
+				   -moz-transform: translateX(200px);
+				     -o-transform: translateX(200px);
+				        transform: translateX(200px);
+			}
+
+			#scale-y .panel {
+				-webkit-transform: scaleY(2);
+				   -moz-transform: scaleY(2);
+				     -o-transform: scaleY(2);
+				        transform: scaleY(2);
+			}
+
+			#scale-y .panel:hover {
+				-webkit-transform: scaleY(1/2);
+				   -moz-transform: scaleY(1/2);
+				     -o-transform: scaleY(1/2);
+				        transform: scaleY(1/2);
+				-webkit-transform: scaleX(3);
+				   -moz-transform: scaleX(3);
+				     -o-transform: scaleX(3);
+				        transform: scaleX(3);
+			}
+
+			#zoom-out .panel:hover {
+				-webkit-transform: scaleZ(3);
+				   -moz-transform: scaleZ(3);
+				     -o-transform: scaleZ(3);
+				        transform: scaleZ(3);
+			}
+
+			#zoom-in .panel:hover {
+				-webkit-transform: rotateZ(45deg);
+				   -moz-transform: rotateZ(45deg);
+				     -o-transform: rotateZ(45deg);
+				        transform: rotateZ(45deg);
+			}
+		</style>
+	</head>
+	<body>
+		<div id="zoom-out" class="container">
+			<div class="panel"></div>
+		</div>
+		<div id="zoom-in" class="container">
+			<div class="panel"></div>
+		</div>
+		<div id="move-right" class="container">
+			<div class="panel"></div>
+		</div>
+		<div id="scale-y" class="container">
+			<div class="panel"></div>
+		</div>
+	</body>
+</html>
