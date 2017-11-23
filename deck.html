@@ -2,113 +2,71 @@
 <html>
 	<head>
 		<script>
-			var DONE = 4;
-			var OK = 200;
-			var player_count = 2;
+			var card;
 
-			function newDeck() {
-				if (localStorage.getItem("newDeck") === null) {
-					var xhr = new XMLHttpRequest();
-					xhr.open('GET', 'https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1');
-					xhr.send(null);
-					xhr.onreadystatechange = function() {
-						if (xhr.readyState === DONE) {
-							if (xhr.status === OK) {
-								localStorage.setItem("newDeck", xhr.responseText);
-								// console.log(xhr.responseText);
-							}
-						}
-					}
-				}
-			}
+			function load() {
+				var DONE = 4;
+				var OK = 200;
+				var player_count = 2;
 
-			function reshuffle() {
-				var deck = localStorage.getItem("newDeck");
-				var deck_json = JSON.parse(deck);
-				var user_deck_id = deck_json.deck_id;
-
-				var ajax = new XMLHttpRequest();
-				ajax.open('GET', `https://deckofcardsapi.com/api/deck/${user_deck_id}/shuffle/`);
-				ajax.send(null);
-				ajax.onreadystatechange = function() {
-					if (ajax.readyState === DONE) {
-						if (ajax.status === OK) {
-							console.log("Reshuffle deck...");
-							console.log(JSON.parse(ajax.responseText));
-						}
-					}
-				}
-			}
-
-			function deal(count) {
-				reshuffle();
-
-				var deck = localStorage.getItem("newDeck");
-				var deck_json = JSON.parse(deck);
-				var user_deck_id = deck_json.deck_id;
-
-				var deal_xhr = new XMLHttpRequest();
-				// for (var i = 0; i < count; i++) {
-					for (var j = 0; j < player_count; j++) {
-						deal_xhr.open('GET', `https://deckofcardsapi.com/api/deck/${user_deck_id}/draw/?count=5`);
-						deal_xhr.send(null);
-						deal_xhr.onreadystatechange = function() {
-							if (deal_xhr.readyState === DONE) {
-								if (deal_xhr.status === OK) {
-									console.log("Draw card...");
-									addToHand(user_deck_id, `player${j}`, JSON.parse(deal_xhr.responseText));
+				function newDeck() {
+					if (localStorage.getItem("newDeck") === null) {
+						var xhr = new XMLHttpRequest();
+						xhr.open('GET', 'https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1');
+						xhr.send(null);
+						xhr.onreadystatechange = function() {
+							if (xhr.readyState === DONE) {
+								if (xhr.status === OK) {
+									localStorage.setItem("newDeck", xhr.responseText);
+									// console.log(xhr.responseText);
 								}
 							}
 						}
 					}
-				// }
-				
-				// console.log(user_deck_id);
-				show();
-			}
-
-			function addToHand(deck_id, hand_name, card) {
-				var hand_xhr = new XMLHttpRequest();
-				var codes = [];
-				for (var i = 0; i < card.cards.length; i++) {
-					var code = card.cards[i].code;
-					codes.push(code);
 				}
-				var joined = codes.join(',');
-				hand_xhr.open('GET', `https://deckofcardsapi.com/api/deck/${deck_id}/pile/${hand_name}/add/?cards=${joined}`);
-				hand_xhr.send(null);
-				hand_xhr.onreadystatechange = function() {
-					if (hand_xhr.readyState === DONE) {
-						if (hand_xhr.status === OK) {
-							console.log("success"); //console.log(JSON.parse(xhr.responseText));
-							console.log(JSON.parse(hand_xhr.responseText));
+
+				function shuffle() {
+					var shufflexhr = new XMLHttpRequest();
+					var deck = localStorage.getItem("newDeck");
+					deck = JSON.parse(deck);
+					shufflexhr.open('GET', `https://deckofcardsapi.com/api/deck/${deck.deck_id}/shuffle/`);
+					shufflexhr.send(null);
+					shufflexhr.onreadystatechange = function() {
+						if (shufflexhr.readyState === DONE) {
+							if (shufflexhr.status === OK) {
+								console.log(JSON.parse(shufflexhr.responseText));
+							}
 						}
 					}
 				}
-			}
 
-			function show() {
+				newDeck();
+				shuffle();
+
 				var deck = localStorage.getItem("newDeck");
-				var deck_json = JSON.parse(deck);
-				var user_deck_id = deck_json.deck_id;
+				deck = JSON.parse(deck);
+				var deckID = deck['deck_id'];
 
-				var show_xhr = new XMLHttpRequest();
-				show_xhr.open('GET', `https;//deckofcardsapi.com/api/deck/${user_deck_id}/`);
-				show_xhr.send(null);
-				show_xhr.onreadystatechange = function() {
-					if (show_xhr.readyState === DONE) {
-						if (show_xhr.status === OK) {
-							console.log(JSON.parse(show_xhr.responseText));
+				var urlReq = `https://deckofcardsapi.com/api/deck/${deckID}/draw/?count=1`;
+				var drawCardxhr = new XMLHttpRequest();
+				drawCardxhr.open('GET', urlReq);
+
+				drawCardxhr.send(null);
+				drawCardxhr.onreadystatechange = function() {
+					if (drawCardxhr.readyState === DONE) {
+						if (drawCardxhr.status === OK) {
+							card = JSON.parse(drawCardxhr.responseText);
+							var img = document.createElement("img");
+							img.setAttribute("src", card.cards[0].image);
+							img.setAttribute("alt", card.cards[0].value + " of " + card.cards[0].suit);
+							document.getElementById("p1").appendChild(img);
 						}
 					}
 				}
 			}
-
-			newDeck();
-			deal(5);
-		</script>	
+		</script>
 	</head>
-	<body>
+	<body onload="load()">
 		<div id="p1">
 			
 		</div>
