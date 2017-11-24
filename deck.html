@@ -1,50 +1,13 @@
 <!doctype html>
 <html>
 	<head>
+		<script src="javascript/deckOperations.js"></script>
 		<script>
-			var card;
 
 			function load() {
-				var DONE = 4;
-				var OK = 200;
-				var player_count = 2;
-
-				function newDeck() {
-					if (localStorage.getItem("newDeck") === null) {
-						var xhr = new XMLHttpRequest();
-						xhr.open('GET', 'https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1');
-						xhr.send(null);
-						xhr.onreadystatechange = function() {
-							if (xhr.readyState === DONE) {
-								if (xhr.status === OK) {
-									localStorage.setItem("newDeck", xhr.responseText);
-									// console.log(xhr.responseText);
-								}
-							}
-						}
-					}
-				}
-
-				function shuffle() {
-					var shufflexhr = new XMLHttpRequest();
-					var deck = localStorage.getItem("newDeck");
-					deck = JSON.parse(deck);
-					shufflexhr.open('GET', `https://deckofcardsapi.com/api/deck/${deck.deck_id}/shuffle/`);
-					shufflexhr.send(null);
-					shufflexhr.onreadystatechange = function() {
-						if (shufflexhr.readyState === DONE) {
-							if (shufflexhr.status === OK) {
-								console.log(JSON.parse(shufflexhr.responseText));
-							}
-						}
-					}
-				}
-
-				newDeck();
+				deck = newDeck();
 				shuffle();
 
-				var deck = localStorage.getItem("newDeck");
-				deck = JSON.parse(deck);
 				var deckID = deck['deck_id'];
 
 				var urlReq = `https://deckofcardsapi.com/api/deck/${deckID}/draw/?count=1`;
@@ -67,8 +30,18 @@
 		</script>
 	</head>
 	<body onload="load()">
-		<div id="p1">
-			
+		<div id="board">
+			<div id="deck"></div>
+			<div id="discard"></div>
+			<div id="p1">
+				<div id="playerHand1"></div>
+				<div id="playerHand2"></div>
+				<div id="playerHand3"></div>
+				<div id="playerHand4"></div>
+				<div id="playerHand5"></div>
+			</div>
 		</div>
+		<div id="command"></div>
+		<button onclick="localStorage.removeItem('newDeck');">Click</button>
 	</body>
 </html>
