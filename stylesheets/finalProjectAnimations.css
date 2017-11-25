@@ -1,0 +1,13 @@
+@keyframes move-up {
+	from {
+		border: none;
+	} to {
+		border: 1px solid blue;
+	}
+}
+
+.selected {
+	animation-name: move-up;
+	animation-duration: 1s;
+	border: 1px solid blue;
+}

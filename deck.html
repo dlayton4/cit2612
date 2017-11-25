@@ -1,47 +1,115 @@
 <!doctype html>
 <html>
 	<head>
+		<link rel="stylesheet" href="stylesheets/finalProjectAnimations.css">
+		<style>
+			html, body {
+				height: 100%;
+			}
+
+			.card {
+				display: inline;
+			}
+
+			.card img {
+				height: auto;
+				/*max-width: 100%;*/
+				width: 19%;
+			}
+
+			#p1 {
+				bottom: 0;
+				padding: 5px;
+				position: fixed;
+				z-index: 150;
+			}
+			.selected {
+
+			}
+		</style>
 		<script src="javascript/deckOperations.js"></script>
 		<script>
+			Element.prototype.hasClassName = function(a) {
+				return new RegExp("(?:^|\\s+)" + a + "(?:\\s+|$)").test(this.className);
+			};
+
+			Element.prototype.addClassName = function(a) {
+				if (!this.hasClassName(a)) {
+			        this.className = [this.className, a].join(" ");
+			    }
+			};
+
+			Element.prototype.removeClassName = function(b) {
+				if (this.hasClassName(b)) {
+			        var a = this.className;
+			        this.className = a.replace(new RegExp("(?:^|\\s+)" + b + "(?:\\s+|$)", "g"), " ");
+			    }
+			};
+
+			Element.prototype.toggleClassName = function(a) {
+				this[this.hasClassName(a) ? "removeClassName" : "addClassName"](a);
+			};
+		</script>
+		<script>
+			function select() {
+				this.toggleClassName('selected');
+			}
 
 			function load() {
-				deck = newDeck();
-				shuffle();
-
-				var deckID = deck['deck_id'];
-
-				var urlReq = `https://deckofcardsapi.com/api/deck/${deckID}/draw/?count=1`;
-				var drawCardxhr = new XMLHttpRequest();
-				drawCardxhr.open('GET', urlReq);
-
-				drawCardxhr.send(null);
-				drawCardxhr.onreadystatechange = function() {
-					if (drawCardxhr.readyState === DONE) {
-						if (drawCardxhr.status === OK) {
-							card = JSON.parse(drawCardxhr.responseText);
-							var img = document.createElement("img");
-							img.setAttribute("src", card.cards[0].image);
-							img.setAttribute("alt", card.cards[0].value + " of " + card.cards[0].suit);
-							document.getElementById("p1").appendChild(img);
-						}
-					}
+				var cards = document.querySelectorAll("div[id*='playerHand']");
+				for (var i = 0; i < cards.length; i++) {
+					cards[i].img[0].addEventListener('click', select, false);
+					cards[i].img[0].addEventListener('touch', select, false);
 				}
+				// deck = newDeck();
+				// shuffle();
+
+				// var deckID = deck['deck_id'];
+
+				// var urlReq = `https://deckofcardsapi.com/api/deck/${deckID}/draw/?count=1`;
+				// var drawCardxhr = new XMLHttpRequest();
+				// drawCardxhr.open('GET', urlReq);
+
+				// drawCardxhr.send(null);
+				// drawCardxhr.onreadystatechange = function() {
+				// 	if (drawCardxhr.readyState === DONE) {
+				// 		if (drawCardxhr.status === OK) {
+				// 			card = JSON.parse(drawCardxhr.responseText);
+				// 			var img = document.createElement("img");
+				// 			img.setAttribute("src", card.cards[0].image);
+				// 			img.setAttribute("alt", card.cards[0].value + " of " + card.cards[0].suit);
+				// 			document.getElementById("p1").appendChild(img);
+				// 		}
+				// 	}
+				// }
 			}
 		</script>
 	</head>
 	<body onload="load()">
 		<div id="board">
-			<div id="deck"></div>
+			<div id="deck">
+				
+			</div>
 			<div id="discard"></div>
 			<div id="p1">
-				<div id="playerHand1"></div>
-				<div id="playerHand2"></div>
-				<div id="playerHand3"></div>
-				<div id="playerHand4"></div>
-				<div id="playerHand5"></div>
+				<div id="playerHand1" class="card">
+					<img src="http://deckofcardsapi.com/static/img/5S.png" alt="5 of Spades">
+				</div>
+				<div id="playerHand2" class="card">
+					<img src="http://deckofcardsapi.com/static/img/5S.png" alt="5 of Spades">
+				</div>
+				<div id="playerHand3" class="card">
+					<img src="http://deckofcardsapi.com/static/img/5S.png" alt="5 of Spades">
+				</div>
+				<div id="playerHand4" class="card">
+					<img src="http://deckofcardsapi.com/static/img/5S.png" alt="5 of Spades">
+				</div>
+				<div id="playerHand5" class="card">
+					<img src="http://deckofcardsapi.com/static/img/5S.png" alt="5 of Spades">
+				</div>
 			</div>
 		</div>
 		<div id="command"></div>
-		<button onclick="localStorage.removeItem('newDeck');">Click</button>
+		<!--<button onclick="localStorage.removeItem('newDeck');">Click</button>-->
 	</body>
 </html>
